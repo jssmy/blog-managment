@@ -1,0 +1,30 @@
+services:
+  mongo-blog:
+    image: mongo:latest
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    container_name: mongo-blog-container
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/volumes/mongo-blog-volume:/data/db
+    restart: always
+  node-blog:
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    environment:
+        MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+        MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+        MONGO_INITDB_PORT: ${MONGO_INITDB_PORT}
+    ports:
+      - "3001:3000"
+    container_name: node-blog-containter
+    depends_on:
+      - mongo-blog
+
+volumes:
+  mongo-blog-volume:
