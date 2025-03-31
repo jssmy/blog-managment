@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { Schema as MongooseSchema } from 'mongoose';
 import { Block } from './block.entity';
 import { BlogStage } from 'src/commons/enum/blog-stage.enum';
 
@@ -16,7 +15,7 @@ export class Blog {
     slug: string;
 
 
-    @Prop({ enum: BlogStage, required: true })
+    @Prop({ enum: BlogStage, required: true , default: BlogStage.DRAFT})
     stage: BlogStage;
 
     @Prop({ required: true, type: [Block] })
