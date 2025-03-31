@@ -1,11 +1,14 @@
 services:
   mongo-blog:
-    image: mongo:latest
+    build: 
+      context: .
+      dockerfile: mongo.Dockerfile
+      args:
+        MONGO_DB_VERSION: ${MONGO_DB_VERSION}
     environment:
         MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
         MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
         MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-        MONGO_DB_VERSION: ${MONGO_DB_VERSION}
     container_name: mongo-blog-container
     ports:
       - "27017:27017"
