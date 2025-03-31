@@ -30,7 +30,7 @@ services:
       JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET}
       JWT_REFRESH_TOKEN_EXPIRE: ${JWT_REFRESH_TOKEN_SECRET}
     ports:
-      - "3001:3000"
+      - "3001:3001"
     container_name: node-blog-containter
     depends_on:
       - mongo-blog

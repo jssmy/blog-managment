@@ -7,10 +7,14 @@ import { MongooseModule } from "@nestjs/mongoose";
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ ConfigService],
-            useFactory: (config: ConfigService)=> ({
-                uri: `mongodb://${config.get('MONGO_INITDB_ROOT_USERNAME')}:${config.get('MONGO_INITDB_ROOT_PASSWORD')}@${config.get('MONGO_INITDB_HOST')}:${config.get('MONGO_INITDB_PORT')}/${config.get('MONGO_INITDB_DATABASE')}`,
-                authSource: 'admin'
-            })
+            useFactory: (config: ConfigService)=> {
+                const password = encodeURIComponent(config.get('MONGO_INITDB_ROOT_PASSWORD'));
+                const uri = `mongodb://${config.get('MONGO_INITDB_ROOT_USERNAME')}:${password}@${config.get('MONGO_INITDB_HOST')}:${config.get('MONGO_INITDB_PORT')}/${config.get('MONGO_INITDB_DATABASE')}`;
+                return  {
+                        uri,
+                        authSource: 'admin'
+                }
+            }
         })
     ],
     exports: [
