@@ -54,6 +54,8 @@ export class BlogService {
       throw new NotFoundException(`Blog ${slug} not found`);
     }
 
+    
+
     return blog;
 
   }
