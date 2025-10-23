@@ -31,7 +31,6 @@ export class BlogController {
     });
   }
 
-  @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get()
   findAll(@Query() queryDto: QueryBlogDto): Promise<PaginatedBlogResponseDto<BlogPreview>> {
     return this.blogService.findAll(queryDto);
