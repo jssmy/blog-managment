@@ -5,7 +5,7 @@ import { QueryBlogDto } from './dto/query-blog.dto';
 import { PaginatedBlogResponseDto } from './dto/paginated-blog-response.dto';
 import { Blog } from './entities/blog.entity';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { generateSlug } from 'src/commons/utils/string.util';
 import { BlogStage } from 'src/commons/enum/blog-stage.enum';
 
@@ -35,7 +35,7 @@ export class BlogService {
     const { page = 1, limit = 10, search, stage, userId, sortBy = 'time', sortOrder = 'desc' } = queryDto;
     
     // Build filter object
-    const filter: any = {};
+    const filter: FilterQuery<Blog> = {};
     
     if (stage) {
       filter.stage = stage;
@@ -47,7 +47,6 @@ export class BlogService {
     
     if (search) {
       filter.$or = [
-        { slug: { $regex: search, $options: 'i' } },
         { 'blocks.data.text': { $regex: search, $options: 'i' } }
       ];
     }
