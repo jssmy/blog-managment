@@ -7,6 +7,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { GetPayload } from 'src/commons/decorators/get-payload.decorators';
 import { AccessTokenPayload } from 'src/commons/interfaces/access-token.payload';
 import { BlogStage } from 'src/commons/enum/blog-stage.enum';
+import { StrategyKey } from 'src/commons/enum/strategy-key.enum';
 import { use } from 'passport';
 
 
@@ -15,7 +16,7 @@ import { use } from 'passport';
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
-  @UseGuards(AuthGuard('access-token-strategy'))
+  @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Post()
   create(
     @Body() createBlogDto: CreateBlogDto,
@@ -27,13 +28,13 @@ export class BlogController {
     });
   }
 
-  @UseGuards(AuthGuard('access-token-strategy'))
+  @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get()
   findAll() {
     return this.blogService.findAll();
   }
 
-  @UseGuards(AuthGuard('access-token-strategy'))
+  @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get('own')
   getBlogsByUserId(
     @GetPayload() payload: AccessTokenPayload
@@ -50,7 +51,7 @@ export class BlogController {
   }
 
   // here auth access
-  @UseGuards(AuthGuard('access-token-strategy'))
+  @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get('draft/:slug')
   findOneDraft(
     @Param('slug') slug: string
@@ -58,7 +59,7 @@ export class BlogController {
     return this.blogService.findOne(slug, BlogStage.DRAFT);
   }
 
-  @UseGuards(AuthGuard('access-token-strategy'))
+  @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Put(':slug')
   update(@Param('slug') slug: string, @Body() updateBlogDto: UpdateBlogDto) {
     return this.blogService.update(slug, updateBlogDto);
