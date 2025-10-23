@@ -8,6 +8,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { generateSlug } from 'src/commons/utils/string.util';
 import { BlogStage } from 'src/commons/enum/blog-stage.enum';
+import { BlockType } from 'src/commons/enum/block-type.enum';
+import { BlogPreview } from './interfaces/blog-preview.interface';
 
 @Injectable()
 export class BlogService {
@@ -17,9 +19,34 @@ export class BlogService {
     private readonly blogModel: Model<Blog>
   ) { }
 
+  private extractBlogPreview(blog: Blog): BlogPreview {
+    // Extract title from first header block
+    const headerBlock = blog.blocks.find(block => block.type === BlockType.HEADER);
+    const title = headerBlock?.data?.text || 'Sin título';
+
+    // Extract description from first paragraph block
+    const paragraphBlock = blog.blocks.find(block => block.type === BlockType.PARAGRAPH);
+    const description = paragraphBlock?.data?.text || 'Sin descripción';
+
+    // Extract image URL from first image or simpleImage block
+    const imageBlock = blog.blocks.find(block => 
+      block.type === BlockType.IMAGE || block.type === BlockType.SIMPLE_IMAGE
+    );
+    const imageUrl = imageBlock?.data?.url || undefined;
+
+    return {
+      userId: blog.userId,
+      time: blog.time,
+      slug: blog.slug,
+      title,
+      description,
+      imageUrl
+    };
+  }
+
   async create(createBlogDto: CreateBlogDto & { userId: string }) {
     const blog = new this.blogModel({
-      slug: generateSlug(createBlogDto.blocks.find(block => block.type === 'header').data.text),
+      slug: generateSlug(createBlogDto.blocks.find(block => block.type === BlockType.HEADER).data.text),
       stage: BlogStage.DRAFT,
       ...createBlogDto
     });
@@ -31,7 +58,7 @@ export class BlogService {
     }
   }
 
-  async findAll(queryDto: QueryBlogDto): Promise<PaginatedBlogResponseDto> {
+  async findAll(queryDto: QueryBlogDto): Promise<PaginatedBlogResponseDto<BlogPreview>> {
     const { page = 1, limit = 10, search, stage, userId, sortBy = 'time', sortOrder = 'desc' } = queryDto;
     
     // Build filter object
@@ -65,6 +92,7 @@ export class BlogService {
         .sort(sort)
         .skip(skip)
         .limit(limit)
+        .populate('userId')
         .exec(),
       this.blogModel.countDocuments(filter)
     ]);
@@ -75,7 +103,7 @@ export class BlogService {
     const hasPrev = page > 1;
     
     return {
-      data: blogs,
+      data: blogs.map(blog => this.extractBlogPreview(blog)),
       total,
       page,
       limit,

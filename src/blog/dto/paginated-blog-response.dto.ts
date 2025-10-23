@@ -1,7 +1,5 @@
-import { Blog } from '../entities/blog.entity';
-
-export class PaginatedBlogResponseDto {
-  data: Blog[];
+export class PaginatedBlogResponseDto<T> {
+  data: T[];
   total: number;
   page: number;
   limit: number;
