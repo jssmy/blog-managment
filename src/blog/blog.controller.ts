@@ -1,7 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseUUIDPipe, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseUUIDPipe, Put, Query } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { QueryBlogDto } from './dto/query-blog.dto';
+import { PaginatedBlogResponseDto } from './dto/paginated-blog-response.dto';
 import { ParseMongoIdPipe } from 'src/commons/pipes/parse-mongo-id/parse-mongo-id.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { GetPayload } from 'src/commons/decorators/get-payload.decorators';
@@ -30,8 +32,8 @@ export class BlogController {
 
   @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get()
-  findAll() {
-    return this.blogService.findAll();
+  findAll(@Query() queryDto: QueryBlogDto): Promise<PaginatedBlogResponseDto> {
+    return this.blogService.findAll(queryDto);
   }
 
   @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
