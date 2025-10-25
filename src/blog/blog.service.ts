@@ -59,14 +59,10 @@ export class BlogService {
   }
 
   async findAll(queryDto: QueryBlogDto): Promise<PaginatedBlogResponseDto<BlogPreview>> {
-    const { page = 1, limit = 10, search, stage, userId, sortBy = 'time', sortOrder = 'desc' } = queryDto;
+    const { page = 1, limit = 10, search, userId, sortBy = 'time', sortOrder = 'desc' } = queryDto;
     
     // Build filter object
     const filter: FilterQuery<Blog> = {};
-    
-    if (stage) {
-      filter.stage = stage;
-    }
     
     if (userId) {
       filter.userId = userId;
@@ -77,14 +73,15 @@ export class BlogService {
         { 'blocks.data.text': { $regex: search, $options: 'i' } }
       ];
     }
+
+    filter.stage = BlogStage.PUBLIC;
     
     // Build sort object
-    const sort: any = {};
+    const sort = {};
     sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
     
     // Calculate skip value for pagination
     const skip = (page - 1) * limit;
-    
     // Execute queries in parallel
     const [blogs, total] = await Promise.all([
       this.blogModel

@@ -33,10 +33,6 @@ export class QueryBlogDto {
   search?: string;
 
   @IsOptional()
-  @IsEnum(BlogStage)
-  stage?: BlogStage;
-
-  @IsOptional()
   @IsString()
   userId?: string;
 
