@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Data } from './data.entity';
-import { BlockType } from 'src/commons/enum/block-type.enum';
+import { BlockType } from '@commons/enum/block-type.enum';
 
 @Schema()
 export class Block {

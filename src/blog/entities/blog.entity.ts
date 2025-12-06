@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { Block } from './block.entity';
-import { BlogStage } from 'src/commons/enum/blog-stage.enum';
+import { BlogStage } from '@commons/enum/blog-stage.enum';
 
 export type BlogDocument = HydratedDocument<Blog>;
 

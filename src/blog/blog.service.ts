@@ -6,9 +6,9 @@ import { PaginatedBlogResponseDto } from './dto/paginated-blog-response.dto';
 import { Blog } from './entities/blog.entity';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
-import { generateSlug } from 'src/commons/utils/string.util';
-import { BlogStage } from 'src/commons/enum/blog-stage.enum';
-import { BlockType } from 'src/commons/enum/block-type.enum';
+import { generateSlug } from '@commons/utils/string.util';
+import { BlogStage } from '@commons/enum/blog-stage.enum';
+import { BlockType } from '@commons/enum/block-type.enum';
 import { BlogPreview } from './interfaces/blog-preview.interface';
 
 @Injectable()
