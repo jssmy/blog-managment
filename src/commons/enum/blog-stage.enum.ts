@@ -1,4 +1,4 @@
-export enum BlogStage  {
-    DRAFT = 'draft',
-    PUBLIC = 'public'
+export enum BlogStage {
+  DRAFT = 'draft',
+  PUBLIC = 'public',
 }

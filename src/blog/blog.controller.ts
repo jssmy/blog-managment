@@ -1,4 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ParseUUIDPipe, Put, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  ParseUUIDPipe,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
@@ -13,8 +25,6 @@ import { BlogStage } from 'src/commons/enum/blog-stage.enum';
 import { StrategyKey } from 'src/commons/enum/strategy-key.enum';
 import { use } from 'passport';
 
-
-
 @Controller('blog')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
@@ -23,41 +33,36 @@ export class BlogController {
   @Post()
   create(
     @Body() createBlogDto: CreateBlogDto,
-    @GetPayload() payload: AccessTokenPayload
-) {
+    @GetPayload() payload: AccessTokenPayload,
+  ) {
     return this.blogService.create({
       ...createBlogDto,
-      userId: payload.uid
+      userId: payload.uid,
     });
   }
 
   @Get()
-  findAll(@Query() queryDto: QueryBlogDto): Promise<PaginatedBlogResponseDto<BlogPreview>> {
+  findAll(
+    @Query() queryDto: QueryBlogDto,
+  ): Promise<PaginatedBlogResponseDto<BlogPreview>> {
     return this.blogService.findAll(queryDto);
   }
 
   @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get('own')
-  getBlogsByUserId(
-    @GetPayload() payload: AccessTokenPayload
-
-  ) {
+  getBlogsByUserId(@GetPayload() payload: AccessTokenPayload) {
     return this.blogService.getBlogsByUserId(payload.uid);
   }
 
   @Get('public/:slug')
-  findOne(
-    @Param('slug') slug: string
-  ) {
+  findOne(@Param('slug') slug: string) {
     return this.blogService.findOne(slug, BlogStage.PUBLIC);
   }
 
   // here auth access
   @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
   @Get('draft/:slug')
-  findOneDraft(
-    @Param('slug') slug: string
-  ) {
+  findOneDraft(@Param('slug') slug: string) {
     return this.blogService.findOne(slug, BlogStage.DRAFT);
   }
 

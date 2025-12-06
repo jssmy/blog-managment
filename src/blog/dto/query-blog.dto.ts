@@ -1,17 +1,24 @@
-import { IsOptional, IsString, IsEnum, IsNumber, Min, Max } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsEnum,
+  IsNumber,
+  Min,
+  Max,
+} from 'class-validator';
 import { Transform } from 'class-transformer';
 import { BlogStage } from 'src/commons/enum/blog-stage.enum';
 
 export enum SortOrder {
   ASC = 'asc',
-  DESC = 'desc'
+  DESC = 'desc',
 }
 
 export enum SortField {
   TIME = 'time',
   SLUG = 'slug',
   STAGE = 'stage',
-  VERSION = 'version'
+  VERSION = 'version',
 }
 
 export class QueryBlogDto {

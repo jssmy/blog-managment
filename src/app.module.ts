@@ -6,15 +6,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BlogMongoModule } from './commons/config/mongo/blog-mongo.module';
 import { TokenStrategyModule } from './commons/strategy/token-strategy.module';
 
-
 @Module({
   imports: [
     TokenStrategyModule,
     BlogModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
-    BlogMongoModule
+    BlogMongoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

@@ -9,16 +9,14 @@ import { ParseMongoIdPipe } from 'src/commons/pipes/parse-mongo-id/parse-mongo-i
 // import { Meta, MetaSchema } from './entities/meta.entity';
 // import { Item, ItemSchema } from './entities/item.entity';
 
-
 @Module({
-  
   imports: [
     MongooseModule.forFeature([
       {
-        name:  Blog.name,
-        schema: BlogSchema
-      }
-    ])
+        name: Blog.name,
+        schema: BlogSchema,
+      },
+    ]),
   ],
   controllers: [BlogController],
   providers: [BlogService, ParseMongoIdPipe],

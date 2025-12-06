@@ -9,7 +9,7 @@ export enum BlockType {
   SIMPLE_IMAGE = 'simpleImage',
   DELIMITER = 'delimiter',
   TABLE = 'table',
-  
+
   // Plugin blocks
   EMBED = 'embed',
   LINK_TOOL = 'linkTool',
