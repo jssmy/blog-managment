@@ -1,6 +1,23 @@
-# compiled output
+# compiled output (se generará en el build)
 /dist
 /node_modules
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+*.dockerfile
 
 # Logs
 logs
@@ -13,10 +30,27 @@ lerna-debug.log*
 
 # OS
 .DS_Store
+Thumbs.db
 
 # Tests
+/test
 /coverage
 /.nyc_output
+*.spec.ts
+*.test.ts
+jest.config.js
+jest-e2e.json
+
+# Documentation
+README.md
+*.md
+/docs
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+.circleci
 
 # IDEs and editors
 /.idea
@@ -26,12 +60,22 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
+.vscode
+*.swp
+*.swo
+*~
 
-# IDE - VSCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# Build artifacts
+*.tsbuildinfo
+.eslintrc.js
+eslint.config.mjs
+
+# Package manager
+.pnpm-store
+.yarn
+yarn.lock
+pnpm-lock.yaml
+
+# Other
 .cpanel.yml
 .package-lock.json
