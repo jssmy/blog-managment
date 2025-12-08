@@ -24,12 +24,36 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Blog Management API built with NestJS, MongoDB, and Mongoose.
+
+## Tech Stack
+
+- **NestJS**: 11.1.9
+- **Node.js**: 22.12 LTS (Docker)
+- **MongoDB**: 8.0 (Docker)
+- **Mongoose**: 8.20.2
+- **TypeScript**: 5.6.0
 
 ## Project setup
 
+### Local Development
+
 ```bash
 $ npm install
+```
+
+### Docker Setup
+
+1. Copy the environment template:
+```bash
+$ cp env.template .env
+```
+
+2. Configure your `.env` file with your credentials
+
+3. Start the services:
+```bash
+$ docker-compose up -d
 ```
 
 ## Compile and run the project
@@ -58,18 +82,50 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## Environment Variables
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Copy `env.template` to `.env` and configure the following variables:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- **PORT**: Application port (default: 3001)
+- **MONGO_DB_VERSION**: MongoDB version for Docker (default: 8.0)
+- **MONGO_INITDB_ROOT_USERNAME**: MongoDB root username
+- **MONGO_INITDB_ROOT_PASSWORD**: MongoDB root password
+- **MONGO_INITDB_DATABASE**: MongoDB database name
+- **MONGO_INITDB_HOST**: MongoDB host (use `mongo-blog` for Docker)
+- **MONGO_INITDB_PORT**: MongoDB port (default: 27017)
+- **JWT_TOKEN_SECRET**: JWT access token secret (min 32 chars)
+- **JWT_TOKEN_EXPIRE**: JWT access token expiration (e.g., 15m)
+- **JWT_REFRESH_TOKEN_SECRET**: JWT refresh token secret (min 32 chars)
+- **JWT_REFRESH_TOKEN_EXPIRE**: JWT refresh token expiration (e.g., 7d)
+
+## Docker Deployment
+
+The application uses multi-stage Docker builds for optimized production images:
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+# Build and start all services
+$ docker-compose up -d
+
+# View logs
+$ docker-compose logs -f
+
+# Stop services
+$ docker-compose down
+
+# Rebuild after changes
+$ docker-compose up -d --build
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Docker Images
+
+- **Node.js**: `node:22.12-alpine` (LTS, optimized for NestJS 11.x)
+- **MongoDB**: `mongo:8.0` (latest stable)
+
+### CORS Configuration
+
+The API is configured to accept requests only from:
+- `hardcodeando.com` (with/without www, HTTP/HTTPS)
+- `bugzilo.com` (with/without www, HTTP/HTTPS)
 
 ## Resources
 

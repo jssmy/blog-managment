@@ -1,5 +1,6 @@
 # Stage 1: Build
-FROM node:22-alpine AS builder
+# Node.js 22.12 LTS (compatible with NestJS 11.x)
+FROM node:22.12-alpine AS builder
 
 WORKDIR /app
 
@@ -19,7 +20,8 @@ RUN npm run build && \
     rm -rf src node_modules tsconfig*.json
 
 # Stage 2: Production - Solo lo esencial
-FROM node:22-alpine AS production
+# Node.js 22.12 LTS (compatible with NestJS 11.x)
+FROM node:22.12-alpine AS production
 
 WORKDIR /app
 
