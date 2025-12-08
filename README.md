@@ -127,6 +127,24 @@ The API is configured to accept requests only from:
 - `hardcodeando.com` (with/without www, HTTP/HTTPS)
 - `bugzilo.com` (with/without www, HTTP/HTTPS)
 
+### Rate Limiting (Throttling)
+
+The API implements global rate limiting to prevent abuse:
+
+- **Short**: 3 requests per second
+- **Medium**: 20 requests per 10 seconds
+- **Long**: 100 requests per minute
+
+When the limit is exceeded, clients receive:
+```json
+{
+  "statusCode": 429,
+  "message": "ThrottlerException: Too Many Requests"
+}
+```
+
+Rate limiting is applied globally to all endpoints by default.
+
 ## Resources
 
 Check out a few resources that may come in handy when working with NestJS:
