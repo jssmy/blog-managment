@@ -8,4 +8,3 @@ export class Meta {
   @Prop()
   counterType: string;
 }
-// export const MetaSchema = SchemaFactory.createForClass(Meta);
