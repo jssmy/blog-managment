@@ -78,4 +78,6 @@ pnpm-lock.yaml
 
 # Other
 .cpanel.yml
-.package-lock.json
+
+# IMPORTANTE: package-lock.json NO debe estar en .dockerignore
+# Se necesita para builds reproducibles con npm ci

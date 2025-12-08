@@ -5,9 +5,11 @@ FROM node:22.12-alpine AS builder
 WORKDIR /app
 
 # Copiar archivos de dependencias (mejor cacheo)
-COPY package.json package-lock.json* ./
+# package-lock.json es OBLIGATORIO para builds reproducibles
+COPY package.json package-lock.json ./
 
-# Instalar todas las dependencias para el build
+# Instalar todas las dependencias para el build usando npm ci
+# npm ci requiere package-lock.json y falla si no existe
 RUN npm ci && \
     npm cache clean --force
 
@@ -29,10 +31,11 @@ WORKDIR /app
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nodejs -u 1001
 
-# Copiar package files
-COPY --from=builder /app/package*.json ./
+# Copiar package files desde builder
+COPY --from=builder /app/package.json /app/package-lock.json ./
 
-# Instalar solo producción
+# Instalar solo dependencias de producción usando npm ci
+# Garantiza versiones exactas según package-lock.json
 RUN npm ci --only=production --no-audit --no-fund && \
     npm cache clean --force
 
