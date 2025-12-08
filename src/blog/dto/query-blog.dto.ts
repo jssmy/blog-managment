@@ -7,7 +7,6 @@ import {
   Max,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { BlogStage } from '@commons/enum/blog-stage.enum';
 
 export enum SortOrder {
   ASC = 'asc',

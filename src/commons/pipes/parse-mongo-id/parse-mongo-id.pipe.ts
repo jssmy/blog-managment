@@ -10,7 +10,7 @@ export class ParseMongoIdPipe implements PipeTransform {
 
     try {
       return new Types.ObjectId(value); // Convertir y retornar el ObjectId
-    } catch (e) {
+    } catch (_e) {
       throw new BadRequestException(`Invalid MongoDB ID: ${value}`);
     }
   }

@@ -3,11 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
-  ParseUUIDPipe,
   Put,
   Query,
 } from '@nestjs/common';
@@ -17,7 +15,6 @@ import { UpdateBlogDto } from './dto/update-blog.dto';
 import { QueryBlogDto } from './dto/query-blog.dto';
 import { PaginatedBlogResponseDto } from './dto/paginated-blog-response.dto';
 import { BlogPreview } from './interfaces/blog-preview.interface';
-import { ParseMongoIdPipe } from '@commons/pipes/parse-mongo-id/parse-mongo-id.pipe';
 import { AuthGuard } from '@nestjs/passport';
 import { GetPayload } from '@commons/decorators/get-payload.decorators';
 import { AccessTokenPayload } from '@commons/interfaces/access-token.payload';

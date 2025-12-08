@@ -1,5 +1,4 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as MongooseSchema } from 'mongoose';
+import { Prop, Schema } from '@nestjs/mongoose';
 import { Data } from './data.entity';
 import { BlockType } from '@commons/enum/block-type.enum';
 
