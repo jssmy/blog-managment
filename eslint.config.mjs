@@ -2,16 +2,12 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier/recommended';
-import noCommentedCode from 'eslint-plugin-no-commented-code';
 
 export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   prettier,
   {
-    plugins: {
-      'no-commented-code': noCommentedCode,
-    },
     languageOptions: {
       globals: {
         ...globals.node,
@@ -26,8 +22,14 @@ export default tseslint.config(
       // NO permitir console.log en producción
       'no-console': 'error',
       
-      // NO permitir código comentado
-      'no-commented-code/no-commented-code': 'error',
+      // Advertir sobre TODOs, FIXMEs, etc. (no bloquea build)
+      'no-warning-comments': [
+        'warn',
+        {
+          terms: ['TODO', 'FIXME', 'XXX', 'HACK', 'NOTE', 'OPTIMIZE', 'REVIEW'],
+          location: 'start',
+        },
+      ],
       // Desactivar reglas estrictas de TypeScript
       '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',

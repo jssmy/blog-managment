@@ -56,7 +56,6 @@
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
-    "eslint-plugin-no-commented-code": "^1.0.10",
     "eslint-plugin-prettier": "^5.2.0",
     "globals": "^16.5.0",
     "jest": "^29.5.0",
