@@ -105,7 +105,8 @@ export class CreateBlogDto {
   time: number;
 
   @IsEnum(BlogStage)
-  stage: BlogStage;
+  @IsOptional()
+  stage?: BlogStage;
 
   @ValidateNested({ each: true })
   @Type(() => Block)
