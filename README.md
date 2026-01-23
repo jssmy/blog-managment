@@ -120,6 +120,65 @@ $ docker-compose up -d --build
 
 - **Node.js**: `node:22.12-alpine` (LTS, optimized for NestJS 11.x)
 - **MongoDB**: `mongo:8.0` (latest stable)
+- **Nginx**: `nginx:1.27-alpine` (reverse proxy with SSL/TLS)
+
+## SSL/HTTPS Configuration
+
+The application uses Nginx as a reverse proxy with Let's Encrypt SSL certificates for HTTPS.
+
+### Initial SSL Setup
+
+1. **Install Certbot** (if not already installed):
+```bash
+# Ubuntu/Debian
+sudo apt install certbot
+
+# macOS
+brew install certbot
+
+# CentOS/RHEL
+sudo yum install certbot
+```
+
+2. **Obtain SSL Certificate**:
+```bash
+# Run the setup script
+./setup-ssl.sh your-email@example.com bugzilo.com
+
+# Or manually with certbot
+sudo certbot certonly --standalone \
+  --preferred-challenges http \
+  --email your-email@example.com \
+  --agree-tos \
+  -d bugzilo.com \
+  -d www.bugzilo.com
+```
+
+3. **Start the application**:
+```bash
+docker-compose up -d --build
+```
+
+### SSL Features
+
+- ✅ **HTTPS on port 3001** with TLS 1.2/1.3
+- ✅ **HTTP to HTTPS redirect** (port 80 → 3001)
+- ✅ **Modern SSL configuration** with strong ciphers
+- ✅ **Security headers** (HSTS, X-Frame-Options, etc.)
+- ✅ **Automatic certificate renewal** via Let's Encrypt
+
+### Access URLs
+
+- **HTTPS (recommended)**: `https://bugzilo.com:3001/`
+- **HTTP (redirects to HTTPS)**: `http://bugzilo.com/` → `https://bugzilo.com:3001/`
+
+### Certificate Renewal
+
+Certificates renew automatically every 90 days. To renew manually:
+```bash
+sudo certbot renew
+docker-compose restart nginx-blog
+```
 
 ### CORS Configuration
 

@@ -10,8 +10,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     container_name: mongo-blog-container
-    ports:
-      - "27017:27017"
+    expose:
+      - "27017"
     volumes:
       - ~/volumes/mongo-blog-volume:/data/db
     restart: always
@@ -30,12 +30,20 @@ services:
       JWT_TOKEN_EXPIRE: ${JWT_TOKEN_EXPIRE}
       JWT_REFRESH_TOKEN_SECRET: ${JWT_REFRESH_TOKEN_SECRET}
       JWT_REFRESH_TOKEN_EXPIRE: ${JWT_REFRESH_TOKEN_EXPIRE}
-    ports:
-      - "${PORT:-3001}:${PORT:-3001}"
+    expose:
+      - "3001"
     container_name: node-blog-containter
+    networks:
+      - default
+      - gateway-network
     restart: always
     depends_on:
       - mongo-blog
 
 volumes:
   mongo-blog-volume:
+
+networks:
+  gateway-network:
+    name: gateway-network
+    external: true
