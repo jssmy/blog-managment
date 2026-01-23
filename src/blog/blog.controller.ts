@@ -26,7 +26,7 @@ export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
   @UseGuards(AuthGuard(StrategyKey.ACCESS_TOKEN))
-  @Post()
+  @Post('create')
   create(
     @Body() createBlogDto: CreateBlogDto,
     @GetPayload() payload: AccessTokenPayload,
